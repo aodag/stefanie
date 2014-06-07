@@ -4,4 +4,4 @@ go:
 install:
   - go get github.com/go-martini/martini
 script:
-  - go test -v ./stefanie
+  - go test -v .
