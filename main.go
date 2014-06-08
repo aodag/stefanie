@@ -12,5 +12,6 @@ func Greeting() string {
 func main() {
 	m := martini.Classic()
 	m.Get("/", Greeting)
+	m.Get("/projects", ProjectCollection)
 	m.Run()
 }
