@@ -19,6 +19,7 @@ func MakeApp() *martini.ClassicMartini {
 		(*ProjectRepository)(nil))
 	m.Get("/", Greeting)
 	m.Get("/projects", ProjectCollection)
+	m.Post("/projects", ProjectCollection)
 	return m
 }
 func main() {
