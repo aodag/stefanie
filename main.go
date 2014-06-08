@@ -6,17 +6,20 @@ import (
 )
 
 
+type Application struct {
+	DatabaseURL string
+}
+
 func Greeting() string {
 	return "Hello world!"
 }
 
 
-func MakeApp() *martini.ClassicMartini {
-	dbmap := InitDB(os.Getenv("DATABASE_URL"))
-	m := martini.Classic()
+func (app *Application) MakeWebApp() *martini.ClassicMartini {
+	dbmap := InitDB(app.DatabaseURL)
 	repo := NewGorpProjectRepository(dbmap)
-	//repo.Data = make(map[string] *Project)
 
+	m := martini.Classic()
 	m.MapTo(repo,
 		(*ProjectRepository)(nil))
 	m.Get("/", Greeting)
@@ -24,7 +27,15 @@ func MakeApp() *martini.ClassicMartini {
 	m.Post("/projects", ProjectCollection)
 	return m
 }
+
+func NewApplication(databaseURL string) *Application {
+	app := new(Application)
+	app.DatabaseURL = databaseURL
+	return app
+}
+
 func main() {
-	m := MakeApp()
+	app := NewApplication(os.Getenv("DATABASE_URL"))
+	m := app.MakeWebApp()
 	m.Run()
 }

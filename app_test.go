@@ -5,11 +5,13 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 )
 
 
 func TestApp(t *testing.T) {
-	m := MakeApp()
+	app := NewApplication(os.Getenv("DATABASE_URL"))
+	m := app.MakeWebApp()
 	ts := httptest.NewServer(m)
 	defer ts.Close()
 	http.Get(ts.URL)
