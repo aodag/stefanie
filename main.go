@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/go-martini/martini"
+	"os"
 )
 
 
@@ -11,9 +12,10 @@ func Greeting() string {
 
 
 func MakeApp() *martini.ClassicMartini {
+	dbmap := InitDB(os.Getenv("DATABASE_URL"))
 	m := martini.Classic()
-	repo := new(DummyProjectRepository)
-	repo.Data = make(map[string] *Project)
+	repo := NewGorpProjectRepository(dbmap)
+	//repo.Data = make(map[string] *Project)
 
 	m.MapTo(repo,
 		(*ProjectRepository)(nil))

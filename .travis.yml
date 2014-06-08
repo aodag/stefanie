@@ -1,7 +1,16 @@
 language: go
 go:
   - 1.2
+addons:
+  postgresql: "9.3"
 install:
   - go get github.com/go-martini/martini
+  - go get github.com/coopernurse/gorp
+  - go get github.com/lib/pq
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+env:
+  global:
+    DATABASE_URL: postgres://postgres@localhost/travis_ci_test
 script:
   - go test -v .

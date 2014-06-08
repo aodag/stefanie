@@ -1,0 +1,4 @@
+db:
+  image: orchardup/postgresql:latest
+  ports: 
+    - "8432:5432"
