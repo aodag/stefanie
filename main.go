@@ -9,10 +9,19 @@ func Greeting() string {
 	return "Hello world!"
 }
 
-func main() {
+
+func MakeApp() *martini.ClassicMartini {
 	m := martini.Classic()
-	m.MapTo(DummyProjectRepository{}, (*ProjectRepository)(nil))
+	repo := new(DummyProjectRepository)
+	repo.Data = make(map[string] *Project)
+
+	m.MapTo(repo,
+		(*ProjectRepository)(nil))
 	m.Get("/", Greeting)
 	m.Get("/projects", ProjectCollection)
+	return m
+}
+func main() {
+	m := MakeApp()
 	m.Run()
 }

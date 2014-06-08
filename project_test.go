@@ -17,12 +17,12 @@ func TestNewProject(t *testing.T) {
 func TestProjectCollection(t *testing.T) {
 	body := bytes.NewBufferString("name=testing-project")
 	req, err := http.NewRequest("POST", "/", body)
-	req.Header.Add("Content-type", "application/x-www-form-urlencoded")
-	repo := new(DummyProjectRepository)
-	repo.Data = make(map[string] *Project)
 	if err != nil {
 		panic(err.Error())
 	}
+	req.Header.Add("Content-type", "application/x-www-form-urlencoded")
+	repo := new(DummyProjectRepository)
+	repo.Data = make(map[string] *Project)
 	res := ProjectCollection(req, repo)
 	if res != "testing-project" {
 		t.Errorf("res body: %s", res)
