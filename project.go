@@ -14,6 +14,21 @@ func NewProject(name string) *Project {
 	return project
 }
 
-func ProjectCollection(req *http.Request) string {
-	return ""
+func ProjectCollection(req *http.Request, repo ProjectRepository) string {
+	name := req.PostFormValue("name")
+	project := NewProject(name)
+	repo.Add(project)
+	return project.Name
+}
+
+type ProjectRepository interface {
+	Add(*Project)
+}
+
+type DummyProjectRepository struct {
+	Data map[string] *Project
+}
+
+func (this *DummyProjectRepository) Add(project *Project) {
+	this.Data[project.Name] = project
 }

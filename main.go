@@ -11,6 +11,7 @@ func Greeting() string {
 
 func main() {
 	m := martini.Classic()
+	m.MapTo(DummyProjectRepository{}, (*ProjectRepository)(nil))
 	m.Get("/", Greeting)
 	m.Get("/projects", ProjectCollection)
 	m.Run()
